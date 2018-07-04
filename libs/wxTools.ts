@@ -92,6 +92,13 @@ class WxTools {
     }).then(results => results);
   }
 
+  /** 获取精灵的纹理路径: 目前只用于微信小游戏 */
+  static getTextureUrlAtWechat(spriteFrame: cc.SpriteFrame) {
+    const src = spriteFrame._texture._image.src;
+    const filePath = src.replace(window.location.origin + '/game/', '');
+    return filePath;
+  }
+
   /**
    * 游戏圈
    * https://developers.weixin.qq.com/minigame/dev/tutorial/open-ability/game-club.html
