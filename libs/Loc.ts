@@ -8,6 +8,7 @@ class Loc {
 
   static get(key: string) {
     const storageValue = cc.sys.localStorage.getItem(key);
+    return storageValue;
   }
 
   static setJson(key: string, json: JSON) {
