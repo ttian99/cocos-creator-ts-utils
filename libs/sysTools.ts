@@ -37,6 +37,11 @@ class SysTools {
     console.log(size);
     return (size.width == 2436 && size.height == 1125) || (size.width == 1125 && size.height == 2436);
   }
+  /** 获取设备的高宽比 */
+  static get aspectRatio() {
+    const size = cc.view.getFrameSize();
+    return size.height / size.width;
+  }
 }
 
 export default SysTools;
