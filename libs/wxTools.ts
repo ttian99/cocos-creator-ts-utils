@@ -1,13 +1,13 @@
 /** 通过canvas内容创建的临时图片对象 */
 interface TempFileData {
-  x: number | any,	//	// 截取 canvas 的左上角横坐标
-  y: number | any,	// 截取 canvas 的左上角纵坐标
-  width: number | any,	// 截取 canvas 的宽度
-  height: number | any,	// 截取 canvas 的高度
-  destWidth: number | any,	// 目标文件的宽度，会将截取的部分拉伸或压缩至该数值
-  destHeight: number | any, // 目标文件的高度，会将截取的部分拉伸或压缩至该数值
-  fileType: string | any,	// 目标文件的类型
-  quality: number | any, // jpg图片的质量，仅当 fileType 为 jpg 时有效。取值范围为 0.0（最低）- 1.0（最高），不含 0。不在范围内时当作 1.0
+  x?: number | any,	//	// 截取 canvas 的左上角横坐标
+  y?: number | any,	// 截取 canvas 的左上角纵坐标
+  width?: number | any,	// 截取 canvas 的宽度
+  height?: number | any,	// 截取 canvas 的高度
+  destWidth?: number | any,	// 目标文件的宽度，会将截取的部分拉伸或压缩至该数值
+  destHeight?: number | any, // 目标文件的高度，会将截取的部分拉伸或压缩至该数值
+  fileType?: string | any,	// 目标文件的类型
+  quality?: number | any, // jpg图片的质量，仅当 fileType 为 jpg 时有效。取值范围为 0.0（最低）- 1.0（最高），不含 0。不在范围内时当作 1.0
 }
 
 /** 游戏圈按钮icon的值  */
@@ -76,7 +76,8 @@ class WxTools {
   }
 
   /** 获取canvas截图临时文件路径 */
-  static async canvasToTempFileSync(obj: TempFileData) {
+  static async canvasToTempFileSync(obj: TempFileData): Promise<any> {
+    if (!this.isWxPlatFrom) return '';
     const canvas = cc.game.canvas;
     return new Promise((resolve) => {
       canvas.toTempFilePath({
