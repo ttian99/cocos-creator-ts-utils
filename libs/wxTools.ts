@@ -29,7 +29,7 @@ const DEFAULT_GAME_CLUB_BUTTON = {
 }
 
 class WxTools {
-  GAME_CLUB_BUTTON_ICON = GAME_CLUB_BUTTON_ICON;
+  static GAME_CLUB_BUTTON_ICON = GAME_CLUB_BUTTON_ICON;
   static get isWxPlatFrom() {
     return cc.sys.platform === cc.sys.WECHAT_GAME;
   }
@@ -104,10 +104,9 @@ class WxTools {
    * https://developers.weixin.qq.com/minigame/dev/tutorial/open-ability/game-club.html
    */
   /** 创建打开游戏圈的按钮 */
-  static createGameClubButton(obj?) {
-    if (!this.isWxPlatFrom) return;
-    if (!obj) obj = DEFAULT_GAME_CLUB_BUTTON;
-    wx.createGameClubButton(obj);
+  static createGameClubButton(obj = DEFAULT_GAME_CLUB_BUTTON) {
+    if (!this.isWxPlatFrom) return null;
+    return wx.createGameClubButton(obj);
   }
 
   /**
@@ -122,6 +121,66 @@ class WxTools {
   static createBannerAd() {
     // return  wx.createBannerAd();
   }
+
+  /**
+   * 用户授权
+   * https://developers.weixin.qq.com/minigame/dev/tutorial/open-ability/authorize.html
+   */
+
+
+  /**
+   * 关系链数据
+   * https://developers.weixin.qq.com/minigame/dev/tutorial/open-ability/open-data.html
+   */
+  /** 获取当前用户也玩该小游戏的好友的用户数据 */
+  static getFriendCloudStorage() {
+    if (!this.isWxPlatFrom) return null;
+    wx.getFriendCloudStorage();
+  }
+  /** 获取当前用户在某个群中也玩该小游戏的成员的用户数据 */
+  static getGroupCloudStorage() {
+    if (!this.isWxPlatFrom) return null;
+    wx.getGroupCloudStorage();
+  }
+  /** 获取当前用户的托管数据 */
+  static getUserCloudStorage() {
+    if (!this.isWxPlatFrom) return null;
+    wx.getUserCloudStorage()
+  }
+  /** 将当前用户的游戏数据托管在微信后台 */
+  static setUserCloudStorage(data) {
+    if (!this.isWxPlatFrom) return null;
+    wx.setUserCloudStorage(data);
+  }
+  /** 删除用户托管数据中指定字段的数据  */
+  static removeUserCloudStorage() {
+    if (!this.isWxPlatFrom) return null;
+    wx.removeUserCloudStorage();
+  }
+  /** sharedCanvas 是主域和开放数据域都可以访问的一个离屏画布 */
+  static getSharedCanvas() {
+    if (!this.isWxPlatFrom) return null;
+    return wx.getSharedCanvas();
+  }
+  static createCanvas() {
+    if (!this.isWxPlatFrom) return null;
+    return wx.createCanvas();
+  }
+  static getOpenDataContext() {
+    if (!this.isWxPlatFrom) return null;
+    return wx.getOpenDataContext();
+  }
+  /** 监听从主域发来的消息 */
+  static onMessage() {
+    if (!this.isWxPlatFrom) return null;
+    wx.onMessage();
+  }
+  /** 发消息给子域 */
+  static postMessage(data) {
+    if (!this.isWxPlatFrom) return null;
+    wx.postMessage(data);
+  }
+
 }
 
 window.WxTools = WxTools;
