@@ -11,7 +11,7 @@ class Loc {
     return storageValue;
   }
 
-  static setJson(key: string, json: JSON) {
+  static setJson(key: string, json: Object) {
     cc.sys.localStorage.setItem(key, JSON.stringify(json));
   }
 
