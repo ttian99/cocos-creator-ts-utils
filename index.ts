@@ -14,7 +14,7 @@ import sysTools from "./libs/sysTools";
 import WxTools from "./libs/wxTools";
 import AudioTools from "./audio/audioTools";
 import SpriteTools from "./libs/SpriteTools";
-
+import FbTools from "./libs/FbTools";
 
 export let audioTools = AudioTools;
 export let eventMgr = EventMgr;
@@ -27,6 +27,7 @@ export let stringEx = stringTools;
 export let sys = sysTools;
 export let wxTools = WxTools;
 export let spriteTools = SpriteTools;
+export let FbTools = FbTools;
 
 const utils = { audioTools, eventMgr, http, fetch, loc, lodash, _, stringEx, sys, wxTools, spriteTools };
 export default utils;

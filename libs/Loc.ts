@@ -3,32 +3,34 @@
  */
 class Loc {
   static set(key: string, value: any) {
-    cc.sys.localStorage.setItem(key, value);
+    if (!value) value = value + ''; // 排除null和undefined
+    let saveData;
+    const type = typeof(value);
+    console.log('type = ' + type)
+    if (type === 'boolean' || type === 'number') {
+      saveData = type + ':::' + value.toString();
+    } else if (type === 'object') {
+      saveData = type + ':::' + JSON.stringify(value);
+    } else {
+      saveData = type + ':::' + value;
+    }
+    cc.sys.localStorage.setItem(key, saveData);
   }
 
   static get(key: string) {
     const storageValue = cc.sys.localStorage.getItem(key);
-    return storageValue;
+    if (!storageValue) return storageValue;
+    const [type, data] = storageValue.split(':::');
+    if (type === 'boolean') {
+      return Boolean(data);
+    } else if (type === 'number') {
+      return Number(data);
+    } else if (type === 'object') {
+      return this.safeParse(data)
+    } else {
+      return data;
+    }
   }
-
-  static setJson(key: string, json: Object) {
-    cc.sys.localStorage.setItem(key, JSON.stringify(json));
-  }
-
-  static getJson(key: string) {
-    return this.safeParse(cc.sys.localStorage.getItem(key));
-  }
-
-  static setBoolean(key: string, vbar: boolean) {
-    const num = vbar ? 1 : 0;
-    cc.sys.localStorage.setItem(key, num);
-  };
-
-  static getBoolean(key: string) {
-    const num = parseInt(cc.sys.localStorage.getItem(key));
-    const boolean = (num === 1) ? true : false;
-    return boolean;
-  };
 
   static safeParse(jsonStr: string) {
     let data = null;
@@ -60,5 +62,5 @@ class Loc {
     return '';
   };
 }
-
+window.loc = Loc;
 export default Loc;
