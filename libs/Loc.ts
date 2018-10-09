@@ -2,33 +2,26 @@
  * @class localStorage 操作类
  */
 class Loc {
-  static set(key: string, value: any) {
+  static set(key: string, value: any, type: string = 'string') {
     if (!value) value = value + ''; // 排除null和undefined
-    let saveData;
-    const type = typeof(value);
-    console.log('type = ' + type)
-    if (type === 'boolean' || type === 'number') {
-      saveData = type + ':::' + value.toString();
-    } else if (type === 'object') {
-      saveData = type + ':::' + JSON.stringify(value);
-    } else {
-      saveData = type + ':::' + value;
+    console.log('type = ' + type);
+    let saveData = value;
+    if (type === 'object') {
+      saveData = JSON.stringify(value);
     }
     cc.sys.localStorage.setItem(key, saveData);
   }
 
-  static get(key: string) {
+  static get(key: string, type: string = 'string') {
     const storageValue = cc.sys.localStorage.getItem(key);
-    if (!storageValue) return storageValue;
-    const [type, data] = storageValue.split(':::');
     if (type === 'boolean') {
-      return Boolean(data);
+      return Boolean(storageValue);
     } else if (type === 'number') {
-      return Number(data);
+      return Number(storageValue);
     } else if (type === 'object') {
-      return this.safeParse(data)
+      return this.safeParse(storageValue)
     } else {
-      return data;
+      return storageValue;
     }
   }
 
