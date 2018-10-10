@@ -59,11 +59,11 @@ class FbTools {
     return FBInstant.updateAsync(opts);
   }
   /** 加载视频广告 */
-  static getRewardedVideoAsync(successFunc, failedFunc) {
+  static getRewardedVideoAsync(placementId, successFunc, failedFunc) {
     var preloadedRewardedVideo = null;
 
     FBInstant.getRewardedVideoAsync(
-      '1847027105387783_1850761158347711', // Your Ad Placement Id
+      placementId, // Your Ad Placement Id
     ).then(function (rewarded) {
       // Load the Ad asynchronously
       preloadedRewardedVideo = rewarded;
@@ -131,6 +131,24 @@ class FbTools {
 
   static getLeaderboardAsync(leaderboardName: string) {
     return FBInstant.getLeaderboardAsync(leaderboardName);
+  }
+
+  /** 添加到主屏幕 */
+  static canCreateShortcutAsync(successFunc?, failedFunc?) {
+    FBInstant.canCreateShortcutAsync()
+      .then(function (canCreateShortcut) {
+        if (canCreateShortcut) {
+          FBInstant.createShortcutAsync()
+            .then(function () {
+              // Shortcut created
+              successFunc && successFunc();
+            })
+            .catch(function () {
+              // Shortcut not created
+              failedFunc && failedFunc();
+            });
+        }
+      });
   }
 
 }
