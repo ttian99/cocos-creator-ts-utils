@@ -17,6 +17,13 @@ const DEFAULT_UPDATE_ASYNC_CONFIG = {
   notification: 'PUSH'
 }
 
+interface sharePayLoad {
+  itent?: string,
+  image?: string,
+  text?: string,
+  data?: object,
+}
+
 /**
  * facebook instant game 工具类
  * instantgame小游戏文档：https://developers.facebook.com/docs/games/instant-games
@@ -40,7 +47,9 @@ class FbTools {
     });
   }
 
-  /** 拉好友一起玩 */
+  /** 拉好友一起玩
+   * @description ContextFilter类型: ("NEW_CONTEXT_ONLY" | "INCLUDE_EXISTING_CHALLENGES" | "NEW_PLAYERS_ONLY")
+  */
   static inviteFriend(successCb, errorCb) {
     this.chooseAsync({
       filters: ['NEW_CONTEXT_ONLY']
@@ -60,6 +69,16 @@ class FbTools {
   static updateAsync(opts) {
     return FBInstant.updateAsync(opts);
   }
+  /** 分享 */
+  static shareAsync(opts: sharePayLoad, cb) {
+    FBInstant.shareAsync({
+      intent: opts.itent || 'SHARE',
+      image: opts.image,
+      text: opts.text || '',
+      data: opts.data,
+    }).then(cb)
+  }
+
   /** 加载视频广告 */
   static getRewardedVideoAsync(placementId, successFunc, failedFunc) {
     var preloadedRewardedVideo = null;
