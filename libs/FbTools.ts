@@ -42,7 +42,9 @@ class FbTools {
 
   /** 拉好友一起玩 */
   static inviteFriend(successCb, errorCb) {
-    this.chooseAsync().then(() => {
+    this.chooseAsync({
+      filters: ['NEW_CONTEXT_ONLY']
+    }).then(() => {
       this.updateAsync(DEFAULT_UPDATE_ASYNC_CONFIG).then(() => {
         successCb && successCb();
       });
@@ -51,8 +53,8 @@ class FbTools {
     });
   }
   /** 初始化一个游戏环境 */
-  static chooseAsync() {
-    return FBInstant.context.chooseAsync();
+  static chooseAsync(opts?: object) {
+    return FBInstant.context.chooseAsync(opts);
   }
   /** 更新游戏环境 */
   static updateAsync(opts) {
