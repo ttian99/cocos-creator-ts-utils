@@ -51,9 +51,7 @@ class FbTools {
    * @description ContextFilter类型: ("NEW_CONTEXT_ONLY" | "INCLUDE_EXISTING_CHALLENGES" | "NEW_PLAYERS_ONLY")
   */
   static inviteFriend(successCb, errorCb) {
-    this.chooseAsync({
-      filters: ['NEW_CONTEXT_ONLY']
-    }).then(() => {
+    this.chooseAsync().then(() => {
       this.updateAsync(DEFAULT_UPDATE_ASYNC_CONFIG).then(() => {
         successCb && successCb();
       });
