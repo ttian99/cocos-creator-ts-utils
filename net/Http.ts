@@ -10,7 +10,7 @@ class Http {
     this.defaultTimeout = 10000;
   }
   // GET方法
-  get(url: string, cb: Function, t: number): void {
+  public static get(url: string, cb: Function, t?: number): void {
     const xhr = new XMLHttpRequest();
 
     xhr.onload = () => {
@@ -36,7 +36,7 @@ class Http {
     xhr.send();
   }
   // POST方法
-  post(url: string, params: any, cb: any, t: any): void {
+  public static post(url: string, params: any, cb: any, t?: any): void {
     if (params instanceof Function) {
       t = cb;
       cb = params;
@@ -68,12 +68,12 @@ class Http {
     xhr.send(params);
   }
   // 代理GET方法
-  proxyGet(url: string, cb: any, t: any, proxyUrl: any): void {
+  public static proxyGet(url: string, cb: any, t?: any, proxyUrl?: any): void {
     const newUrl = proxyUrl ? `${proxyUrl}?imgUrl=${url}` : `${this.proxyUrl}?imgUrl=${url}`;
     this.get(newUrl, cb, t);
   }
   // 代理POST方法
-  proxyPost(url: string, params: any, cb: any, t: any, proxyUrl: any): void {
+  public static proxyPost(url: string, params: any, cb: any, t?: any, proxyUrl?: any): void {
     const newUrl = proxyUrl ? `${proxyUrl}?imgUrl=${url}` : `${this.proxyUrl}?imgUrl=${url}`;
     this.post(newUrl, params, cb, t);
   }
