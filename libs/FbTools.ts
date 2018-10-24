@@ -35,9 +35,8 @@ class FbTools {
     this.defaultImg = img || DEFAULT_BASE64_IMG;
   }
   /** 记录事件 */
-  static logEvent(eventName: string, valueToSum: number, param: Object) {
-    const logged = FBInstant.logEvent(eventName, valueToSum, param);
-    return logged;
+  static logEvent(eventName: string, valueToSum: number, param?: Object) {
+    return FBInstant.logEvent(eventName, valueToSum, param);
   }
   /** 暂停 */
   static onPause(cb) {
@@ -47,65 +46,42 @@ class FbTools {
     });
   }
 
+  /** 获取contextId */
+  static getContextId() {
+    return FBInstant.contex.getID();
+  }
+
   /** 拉好友一起玩
    * @description ContextFilter类型: ("NEW_CONTEXT_ONLY" | "INCLUDE_EXISTING_CHALLENGES" | "NEW_PLAYERS_ONLY")
   */
-  static inviteFriend(successCb, errorCb) {
-    this.chooseAsync().then(() => {
-      this.updateAsync(DEFAULT_UPDATE_ASYNC_CONFIG).then(() => {
-        successCb && successCb();
-      });
-    }).catch((err) => {
-      errorCb && errorCb(err);
-    });
+  static async inviteFriend(successCb, errorCb) {
+    try {
+      await FBInstant.context.chooseAsync(); // 初始化游戏环境
+      await FBInstant.updateAsync(DEFAULT_UPDATE_ASYNC_CONFIG); // 更新游戏环境
+      successCb && successCb();
+    } catch (error) {
+      errorCb && errorCb(error);
+    }
   }
-  /** 初始化一个游戏环境 */
-  static chooseAsync(opts?: object) {
-    return FBInstant.context.chooseAsync(opts);
-  }
-  /** 更新游戏环境 */
-  static updateAsync(opts) {
-    return FBInstant.updateAsync(opts);
-  }
+
   /** 分享 */
-  static shareAsync(opts: sharePayLoad, cb) {
-    FBInstant.shareAsync({
+  static async shareAsync(opts: sharePayLoad) {
+    return FBInstant.shareAsync({
       intent: opts.itent || 'SHARE',
       image: opts.image,
       text: opts.text || '',
       data: opts.data,
-    }).then(cb)
-  }
-
-  /** 加载视频广告 */
-  static getRewardedVideoAsync(placementId, successFunc, failedFunc) {
-    var preloadedRewardedVideo = null;
-
-    FBInstant.getRewardedVideoAsync(
-      placementId, // Your Ad Placement Id
-    ).then(function (rewarded) {
-      // Load the Ad asynchronously
-      preloadedRewardedVideo = rewarded;
-      return preloadedRewardedVideo.loadAsync();
-    }).then(function () {
-      console.log('Rewarded video preloaded');
-      successFunc && successFunc(preloadedRewardedVideo);
-    }).catch(function (err) {
-      console.error('Rewarded video failed to preload: ' + err.message);
-      failedFunc && failedFunc(err);
     });
   }
+  /** 加载视频广告 */
+  static async getRewardedVideoAsync(placementId) {
+    const preloadedRewardedVideo = await FBInstant.getRewardedVideoAsync(placementId);
+    await preloadedRewardedVideo.loadAsync();
+    return preloadedRewardedVideo;
+  }
   /** 展示视频广告 */
-  static showLoadedRewardedVideo(preloadedRewardedVideo, successFunc, failedFunc) {
-    preloadedRewardedVideo.showAsync()
-      .then(function () {
-        console.log('Rewarded video watched successfully');
-        successFunc && successFunc();
-      })
-      .catch(function (e) {
-        console.error(e.message);
-        failedFunc && failedFunc(e);
-      });
+  static async showLoadedRewardedVideo(preloadedRewardedVideo) {
+    return preloadedRewardedVideo.showAsync();
   }
   /** 获取数据 */
   static getDataAsync(keyArr) {
@@ -116,60 +92,74 @@ class FbTools {
    * 详细见FBInstant.player.flushDataAsync: https://developers.facebook.com/docs/games/instant-games/sdk/fbinstant6.2
   */
   static setDataAsync(data, cb, isFlush = false) {
-    FBInstant.player
-      .setDataAsync(data)
-      .then(FBInstant.player.flushDataAsync)
-      .then(function () {
-        cb && cb();
-      });
+    return FBInstant.player.setDataAsync(data).then(FBInstant.player.flushDataAsync);
   }
   /** 获取统计数据 */
   static getStatsAsync(keysArr, cb) {
-    FBInstant.player
-      .getStatsAsync(keysArr)
-      .then(function (stats) {
-        cb && cb(stats)
-      });
+    return FBInstant.player.getStatsAsync(keysArr);
   }
   /** 设置统计数据 */
   static setStatsAsync(data, cb) {
-    FBInstant.player
-      .setStatsAsync(data)
-      .then(function () {
-        cb && cb();
-      });
+    return FBInstant.player.setStatsAsync(data);
   }
   /** 设置增量统计数据 */
-  static incrementStatsAsync() {
-    FBInstant.player
-      .setStatsAsync(data)
-      .then(function () {
-        cb && cb();
-      });
-  }
-
-  static getLeaderboardAsync(leaderboardName: string) {
-    return FBInstant.getLeaderboardAsync(leaderboardName);
+  static incrementStatsAsync(data) {
+    return FBInstant.player.setStatsAsync(data);
   }
 
   /** 添加到主屏幕 */
-  static canCreateShortcutAsync(successFunc?, failedFunc?) {
-    FBInstant.canCreateShortcutAsync()
-      .then(function (canCreateShortcut) {
-        if (canCreateShortcut) {
-          FBInstant.createShortcutAsync()
-            .then(function () {
-              // Shortcut created
-              successFunc && successFunc();
-            })
-            .catch(function () {
-              // Shortcut not created
-              failedFunc && failedFunc();
-            });
-        }
-      });
+  static async canCreateShortcutAsync(successFunc?, failedFunc?) {
+    try {
+      const canCreateShortcut = await FBInstant.canCreateShortcutAsync();
+      if (canCreateShortcut) {
+        await FBInstant.createShortcutAsync();
+        successFunc && successFunc();
+      } else {
+        failedFunc && failedFunc();
+      }
+    } catch (err) {
+      failedFunc && failedFunc(err);
+    }
   }
 
+  /** 获取全球排行榜 */
+  static async getGlobalRank(rankName: string, isFriend: boolean = false, count: number = 100, offset: number = 0) {
+    try {
+      const leaderboard = await FBInstant.getLeaderboardAsync(rankName);
+      let entries = [];
+      if (isFriend) {
+        entries = await leaderboard.getConnectedPlayerEntriesAsync(count, offset);
+      } else {
+        entries = await leaderboard.getEntriesAsync(count, offset);
+      }
+      return entries;
+    } catch (error) {
+      cc.error(error);
+      return [];
+    }
+  }
+  /** 获取个人排行数据 */
+  static async getSelfRankData(rankName: string) {
+    try {
+      const leaderboard = await FBInstant.getLeaderboardAsync(rankName);
+      const entry = await leaderboard.getPlayerEntryAsync();
+      return entry;
+    } catch (error) {
+      cc.error(error);
+      return null;
+    }
+  }
+  /** 上传排行榜数据 */
+  static async setRankData(rankName: string, data: any) {
+    try {
+      const leaderboard = await FBInstant.getLeaderboardAsync(rankName);
+      const entry = await leaderboard.setScoreAsync(data);
+      return entry;
+    } catch (error) {
+      cc.error(error);
+      return null;
+    }
+  }
 }
 
 export default FbTools;
