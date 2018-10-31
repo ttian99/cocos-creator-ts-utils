@@ -15,10 +15,9 @@ class AudioTools {
     this.audioKey = audioKey; // audioKey, 存储到localStorage中的Key值
     this.musicId = -1; // 当前播放音乐的id
     this.save();
-    // this.addHideListen();
   }
   // 添加后台监听
-  protected addHideListen() {
+  addHideListen() {
     cc.game.on(cc.game.EVENT_HIDE, () => {
       this.pauseMusic();
       this.stopAllEffects();
