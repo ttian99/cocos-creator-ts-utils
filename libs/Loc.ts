@@ -4,7 +4,6 @@
 class Loc {
   static set(key: string, value: any, type: string = 'string') {
     if (!value) value = value + ''; // 排除null和undefined
-    console.log('type = ' + type);
     let saveData = value;
     if (type === 'object') {
       saveData = JSON.stringify(value);
