@@ -181,6 +181,11 @@ class WxTools {
     wx.postMessage(data);
   }
 
+  /** 打开另一个小程序 */
+  static navigateToMiniProgram(obj: Object) {
+    if (!this.isWxPlatFrom) return null;
+    wx.navigateToMiniProgram(obj);
+  }
 }
 
 window.WxTools = WxTools;
