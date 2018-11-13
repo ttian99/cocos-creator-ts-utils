@@ -10,6 +10,14 @@ interface TempFileData {
   quality?: number | any, // jpg图片的质量，仅当 fileType 为 jpg 时有效。取值范围为 0.0（最低）- 1.0（最高），不含 0。不在范围内时当作 1.0
 }
 
+/** 样式属性 */
+interface STYLE {
+  left?: number,
+  top?: number,
+  width?: number,
+  height?: number
+}
+
 /** 游戏圈按钮icon的值  */
 enum GAME_CLUB_BUTTON_ICON {
   GREEN = 'green',
@@ -114,12 +122,17 @@ class WxTools {
    * https://developers.weixin.qq.com/minigame/dev/tutorial/ad/banner-ad.html
    */
   /** 视频广告 */
-  static createRewardedVideoAd() {
-    // return wx.createRewardedVideoAd()
+  static createRewardedVideoAd(adUnitId: string) {
+    if (!this.isWxPlatFrom) return null;
+    return wx.createRewardedVideoAd({ adUnitId: adUnitId })
   }
   /** Banner广告 */
-  static createBannerAd() {
-    // return  wx.createBannerAd();
+  static createBannerAd(adUnitId, style: STYLE) {
+    if (!this.isWxPlatFrom) return null;
+    return  wx.createBannerAd({
+      adUnitId: adUnitId,
+      style: style
+    });
   }
 
   /**
