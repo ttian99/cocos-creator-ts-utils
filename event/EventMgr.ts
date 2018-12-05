@@ -43,7 +43,7 @@ export default class EventMgr extends EventEx {
   emit(eventName: string | number, data: any = null) {
     const eventObj = this._list[eventName];
     if (!eventObj) {
-      return cc.error(`no such event [${eventName}] is register`);
+      return cc.error(`no such event [${this.EVENT[eventName]}] is register`);
     }
     if (eventObj.handlers.length < 1) {
       return cc.error(`event [${eventName}] callback is null`);
