@@ -1,5 +1,4 @@
 import AudioSetting from "./AudioSetting";
-import cfg from "../../config/cfg";
 /**
  * 音频播放控制类
  */

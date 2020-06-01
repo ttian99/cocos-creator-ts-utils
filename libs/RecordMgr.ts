@@ -1,11 +1,10 @@
-import pf from '../../platform/index';
-import cfg from '../../config/cfg';
+// import pf from '../../platform/index';
 
 /** 头条平台判断修饰器 */
 function isTTGame(target: any, propertyKey: string, descriptor: PropertyDescriptor) {
     let method = descriptor.value;
     descriptor.value = function (...args) {
-        if (cfg.pf == cfg.PLATFORM.TTGAME) {
+        if (typeof tt != 'undefined') {
             method.apply(this, args);
         } else {
             console.log('非头条小游戏,不搭理~~~');

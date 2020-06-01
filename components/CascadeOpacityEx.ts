@@ -7,7 +7,7 @@ const { ccclass, property, menu } = cc._decorator;
 @menu('comp/CascadeOpacityEx')
 export default class CascadeOpacityEx extends cc.Component {
   // 是否影响子节点的透明度
-  @property(Boolean) cascadeOpacityEnabled = false;
+  @property(cc.Boolean) cascadeOpacityEnabled = false;
   onLoad() {
     this.node.setCascadeOpacityEnabled(this.cascadeOpacityEnabled);
   }

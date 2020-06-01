@@ -1,9 +1,10 @@
 
 const {ccclass, property, menu} = cc._decorator;
 import MathTools from '../libs/MathTools'
-const math = cc.renderer.renderEngine.math;
+// const math = cc.renderer.renderEngine.math;
+const math = cc.matrix;
 
-let _mat4_temp = math.mat4.create();
+let _mat4_temp = new cc.Mat4();
 
 @ccclass
 @menu('comp/HitTest')
@@ -33,10 +34,11 @@ export default class HitTest extends cc.Component {
             cameraPt.set(point);
         }
 
-        let worldMat = math.mat4.create();
+        let worldMat = new cc.Mat4();
         node.getWorldMatrix(worldMat);
-        math.mat4.invert(_mat4_temp, worldMat);
-        math.vec2.transformMat4(testPt, cameraPt, _mat4_temp);
+        // math.mat4.invert(_mat4_temp, worldMat);
+        // math.vec2.transformMat4(testPt, cameraPt, _mat4_temp);
+        cc.Vec2.transformMat4(testPt, cameraPt, _mat4_temp)
         let anchorPoint = node.getAnchorPoint();
         testPt.x += anchorPoint.x * w;
         testPt.y += anchorPoint.y * h;

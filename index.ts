@@ -8,26 +8,27 @@ import EventMgr from "./event/EventMgr";
 import * as Lodash from "./libs/Lodash";
 import Http from './net/Http';
 import Fetch from './net/Fetch';
-import Loc from "./libs/loc";
+import Loc from "./libs/Loc";
 import stringTools from "./libs/StringTools";
 import sysTools from "./libs/sysTools";
 import WxTools from "./libs/wxTools";
-import AudioTools from "./audio/audioTools";
+import audioMgr from "./audio/audioMgr";
 import SpriteTools from "./libs/SpriteTools";
-import FbTools from "./libs/FbTools";
+// import FbTools from "./libs/FbTools";
 
-export let audioTools = AudioTools;
+
+export { audioMgr, Loc };
+// export let audioMgr = audioMgr;
 export let eventMgr = EventMgr;
 export let http = Http;
 export let fetch = Fetch;
-export let loc = Loc;
 export let lodash = Lodash;
 export let _ = lodash;
 export let stringEx = stringTools;
 export let sys = sysTools;
 export let wxTools = WxTools;
 export let spriteTools = SpriteTools;
-export let FbTools = FbTools;
+// export let FbTools = FbTools;
 
-const utils = { audioTools, eventMgr, http, fetch, loc, lodash, _, stringEx, sys, wxTools, spriteTools };
+const utils = { audioMgr, eventMgr, http, fetch, Loc, lodash, _, stringEx, sys, wxTools, spriteTools };
 export default utils;

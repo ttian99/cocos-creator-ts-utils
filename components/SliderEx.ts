@@ -8,7 +8,7 @@ const { ccclass, property, executeInEditMode, menu } = cc._decorator;
 @menu('comp/SliderEx')
 export default class SliderEx extends cc.Component {
   @property(cc.Node) bar = null; // 进度条节点
-  @property(Number) barLen = 0; // 进度条长度
+  @property(cc.Float) barLen = 0; // 进度条长度
   barProgress = 0; // 进度条长度
   sliderComponent: cc.Slider = null; // 滑动条组件
 
