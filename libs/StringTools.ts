@@ -38,5 +38,9 @@ export function numInsertComma(num: number): string {
   return r > 0 ? str.slice(0, r) + ',' + str.slice(r, len).match(/\d{3}/g).join(',') : str.slice(r, len).match(/\d{3}/g).join(',');
 };
 
-const stringTools = { cutName, numInsertComma };
+export function insertStr(soure, start, newStr) {
+  return soure.slice(0, start) + newStr + soure.slice(start)
+}
+
+const stringTools = { cutName, numInsertComma, insertStr };
 export default stringTools;

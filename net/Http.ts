@@ -14,14 +14,14 @@ class Http {
     const xhr = new XMLHttpRequest();
 
     xhr.onload = () => {
-      if (xhr.readyState === XMLHttpRequest.DONE && ((xhr.status >= 200 && xhr.status <= 300) || xhr.status == 304)) {
+      if (xhr.readyState === 4 && ((xhr.status >= 200 && xhr.status <= 300) || xhr.status == 304)) {
         cb && cb(null, xhr.responseText);
       } else {
-        cb && cb('xhr DONE error', xhr.status);
+        cb && cb('请求错误,请稍后再试(DONE)', xhr.status);
       }
     };
     xhr.onerror = (err) => {
-      cb && cb('xhr error', err);
+      cb && cb('请求错误,请稍后再试', err);
     };
 
     xhr.open('GET', url, true);
@@ -30,7 +30,7 @@ class Http {
     xhr.timeout = t || this.defaultTimeout; // 毫秒
     xhr.ontimeout = (e) => {
       xhr.abort();
-      cb && cb('xhr timeout', { ret: -100 });
+      cb && cb('请求超时,请稍后再试', { ret: -100 });
     };
 
     xhr.send();
@@ -48,19 +48,18 @@ class Http {
     xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
 
     xhr.timeout = t || this.defaultTimeout; // 毫秒
-    xhr.ontimeout = (e) => {
+    xhr.ontimeout = function(e) {
       xhr.abort();
       cb && cb('xhr timeout', { ret: -100 });
     };
-    xhr.onerror = (err) => {
+    xhr.onerror = function(err) {
       cb && cb('xhr error', err);
     };
-    xhr.onreadystatechange = () => { // Call a function when the state changes.
-      if (xhr.readyState === XMLHttpRequest.DONE && ((xhr.status >= 200 && xhr.status <= 300) || xhr.status == 304)) {
+    xhr.onload = function() { // Call a function when the state changes.
+      if (xhr.readyState === 4 && ((xhr.status >= 200 && xhr.status <= 300) || xhr.status == 304)) {
         cb && cb(null, xhr.responseText);
-      } else if (xhr.readyState === XMLHttpRequest.DONE) {
-        xhr.abort();
-        cb && cb('xhr DONE error', { ret: -2, status: xhr.status });
+      } else {
+        cb && cb('=> xhr post DONE error', xhr.status);
       }
     };
 

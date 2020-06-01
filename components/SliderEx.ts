@@ -2,9 +2,10 @@
  * slider滑动条的扩展类
  */
 
-const { ccclass, property, executeInEditMode } = cc._decorator;
+const { ccclass, property, executeInEditMode, menu } = cc._decorator;
 @ccclass
 @executeInEditMode
+@menu('comp/SliderEx')
 export default class SliderEx extends cc.Component {
   @property(cc.Node) bar = null; // 进度条节点
   @property(Number) barLen = 0; // 进度条长度

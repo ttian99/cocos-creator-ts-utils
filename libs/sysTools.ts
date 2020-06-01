@@ -34,7 +34,6 @@ class SysTools {
   /**判断是否为iPhoneX */
   static get isIphoneXDevices() {
     const size = cc.view.getFrameSize();
-    console.log(size);
     return (size.width == 2436 && size.height == 1125) || (size.width == 1125 && size.height == 2436);
   }
   /** 获取设备的高宽比 */

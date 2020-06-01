@@ -32,14 +32,23 @@ export function remove(arr: Array<any>, fun: Function) {
   }
 }
 
-// 合并对象
+/**
+ * 合并对象
+ * @param {Object} obj 目标对象 
+ * @param {Object} src 源对象 
+ */
 export function merge(obj: Object, src: Object) {
-  if (!obj || !src) return;
+  if (!obj) {
+    console.warn('obj is null');
+    obj = {};
+  }
+  if (!src) return;
   for (const key in src) {
     if ({}.hasOwnProperty.call(src, key)) {
-      obj[key] = src[key];
+      obj[key] = cloneDeep(src[key]);
     }
   }
+  return obj;
 }
 
 /**
@@ -48,7 +57,7 @@ export function merge(obj: Object, src: Object) {
 * @param action {function}  请求关联函数，实际应用需要调用的函数
 * @return {function}  返回客户调用函数
 */
-function debounce(action: Function, idle: number = 400) {
+export function debounce(action: Function, idle: number = 400) {
   let last;
   return function () {
     const ctx = this;
@@ -66,7 +75,7 @@ function debounce(action: Function, idle: number = 400) {
 * @param action {function}  请求关联函数，实际应用需要调用的函数
 * @return {function}    返回客户调用函数
 */
-function throttle(action: Function, delay: number = 400) {
+export function throttle(action: Function, delay: number = 400) {
   let last = 0;
   return function () {
     const curr: number = new Date().getTime();
@@ -124,5 +133,5 @@ export function sleep(time) {
   return new Promise((resolve) => setTimeout(resolve, time));
 }
 // 默认导出
-const lodash = { map, remove, merge, random, cloneDeep, sleep };
+const lodash = { map, remove, merge, random, cloneDeep, sleep, debounce, throttle };
 export default lodash;
