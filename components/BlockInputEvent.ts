@@ -1,8 +1,5 @@
 const { ccclass, menu, property } = cc._decorator;
 
-// const BlockEvents = ['touchstart', 'touchmove', 'touchend', 'touchcancel',
-//                      'mousedown', 'mousemove', 'mouseup',
-//                      'mouseenter', 'mouseleave', 'mousewheel'];
 
 const BlockEvents = [
   'touchstart', 'touchmove', 'touchend', 'touchcancel', 

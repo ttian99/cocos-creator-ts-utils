@@ -65,9 +65,9 @@ export default class PanelComponent extends cc.Component {
     this.addListen();
   }
 
-  onDisable() {
-    this.rmListen();
-  }
+  // onDisable() {
+  //   this.rmListen();
+  // }
 
   onDestroy() {
     this.rmListen();
